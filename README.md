@@ -28,6 +28,13 @@ PokeExplorer é um catálogo de Pokémon que usa recursos básicos do Next.js, i
 - 3 primeiras habilidades do Pokémon
 - Navegação de volta para o catálogo
 
+### Autenticação e Dashboard
+- Registro de usuário com e-mail, senha e hash seguro
+- Login com JWT gerado no backend e armazenado em cookie HTTP-only
+- Dashboard protegido em `/dashboard` para usuários autenticados
+- CRUD de cards Pokémon associados ao usuário logado
+- Busca e edição de cards do próprio usuário
+
 ### Página Sobre (`/sobre`)
 - Informações do desenvolvedor
 - Descrição do projeto
@@ -42,6 +49,10 @@ PokeExplorer é um catálogo de Pokémon que usa recursos básicos do Next.js, i
 - **TypeScript** - Tipagem estática
 - **Tailwind CSS** - Estilização responsiva
 - **PokéAPI** - API gratuita de Pokémon (https://pokeapi.co)
+- **Prisma** - ORM para PostgreSQL
+- **PostgreSQL** - Banco de dados relacional
+- **JWT** - Autenticação por token
+- **bcryptjs** - Hash de senhas
 
 ## Estrutura do Projeto
 
@@ -52,15 +63,32 @@ pokeexplorer/
 │   │   ├── page.tsx              # Rota principal - listagem
 │   │   ├── layout.tsx            # Layout raiz com Header e Footer
 │   │   ├── globals.css           # Estilos globais
+│   │   ├── dashboard/
+│   │   │   └── page.tsx          # Dashboard protegido com CRUD de cards
+│   │   ├── login/
+│   │   │   └── page.tsx          # Página de login
+│   │   ├── register/
+│   │   │   └── page.tsx          # Página de registro
 │   │   ├── sobre/
-│   │   │   └── page.tsx          # Página estática /sobre
+│   │   │   └── page.tsx          # Página sobre
 │   │   └── pokemon/
 │   │       └── [name]/
 │   │           └── page.tsx      # Rota dinâmica /pokemon/:name
-│   └── components/
-│       ├── Header.tsx            # Cabeçalho da aplicação
-│       ├── Footer.tsx            # Rodapé com créditos
-│       └── PokemonCard.tsx       # Card de Pokémon para listagem
+│   ├── api/
+│   │   ├── auth/
+│   │   │   ├── login/route.ts    # Login JWT
+│   │   │   ├── register/route.ts # Registro de usuário
+│   │   │   └── me/route.ts       # Retorna usuário logado
+│   │   └── cards/
+│   │       ├── route.ts          # Listagem e criação de cards
+│   │       └── [id]/route.ts     # Atualiza e exclui cards
+│   ├── components/
+│   │   ├── Header.tsx            # Cabeçalho da aplicação
+│   │   ├── Footer.tsx            # Rodapé com créditos
+│   │   └── PokemonCard.tsx       # Card de Pokémon para listagem
+│   └── lib/
+│       ├── auth.ts               # Helpers JWT e bcrypt
+│       └── prisma.ts             # Cliente Prisma
 ├── public/                       # Arquivos estáticos
 ├── package.json
 ├── tsconfig.json
